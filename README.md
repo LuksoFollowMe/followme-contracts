@@ -1,14 +1,38 @@
-Smartcontract for FollowMe mini-app.
+# FollowMe Smart Contract
 
-Live at profile.link/followme@B197
+Smart contract for the **FollowMe** mini-app.
 
-Deploy:
+🟢 **Live at**: [profile.link/followme@B197](https://profile.link/followme@B197)
 
-- npm install
-- Create .env file, with PRIVATE_KEY=your-private-key-here
-- Testnet run: npx hardhat ignition deploy --network lukso-testnet ./ignition/modules/FollowMe.js
-- Mainnet run: npx hardhat ignition deploy --network lukso-mainnet ./ignition/modules/FollowMe.js
+---
 
-Verify:
+## 🚀 Deploy
 
-- npx hardhat verify --network lukso-mainnet CONTRACT_ADDRESS 0xf01103E5a9909Fc0DBe8166dA7085e0285daDDcA
+```bash
+# Install dependencies
+npm install
+
+# Create .env file with your private key
+# .env
+PRIVATE_KEY=your-private-key-here
+```
+
+### 🧪 Testnet Deployment
+
+```bash
+npx hardhat ignition deploy --network lukso-testnet ./ignition/modules/FollowMe.js
+```
+
+### 🌐 Mainnet Deployment
+
+```bash
+npx hardhat ignition deploy --network lukso-mainnet ./ignition/modules/FollowMe.js
+```
+
+---
+
+## ✅ Verify
+
+```bash
+npx hardhat verify --network lukso-mainnet CONTRACT_ADDRESS
+```
