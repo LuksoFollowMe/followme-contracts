@@ -5,5 +5,6 @@ const { buildModule } = require("@nomicfoundation/hardhat-ignition/modules");
 
 module.exports = buildModule("FollowMeModule", (m) => {
 	const followMe = m.contract("FollowMe");
+
 	return { followMe };
 });

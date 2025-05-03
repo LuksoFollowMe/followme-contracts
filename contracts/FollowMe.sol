@@ -13,8 +13,6 @@ interface UniversalProfile {
 
     function supportsInterface(bytes4 interfaceId) external view returns (bool);
 
-    function getData(bytes32 key) external view returns (bytes memory);
-
     function setData(bytes32 dataKey, bytes memory dataValue) external payable;
 }
 
@@ -39,7 +37,6 @@ contract FollowMe is ILSP1UniversalReceiverDelegate {
     address private constant NATIVE = address(0);
     bytes32 constant LSP26_FOLLOWED_TYPEID =
         0x71e02f9f05bcd5816ec4f3134aa2e5a916669537ec6c77fe66ea595fabc2d51a;
-    // LSP1UniversalReceiverDelegate LSP26FollowerSystem_FollowNotification
     bytes32 constant RECEIVER_DELEGATE_KEY =
         0x0cfc51aec37c55a4d0b1000071e02f9f05bcd5816ec4f3134aa2e5a916669537;
 
@@ -64,7 +61,10 @@ contract FollowMe is ILSP1UniversalReceiverDelegate {
 
     constructor() payable {}
 
-    function startCampaign(Campaign memory campaign) public payable {
+    function startCampaign(
+        Campaign memory campaign,
+        bool registerReceiverDelegate
+    ) public payable {
         if (
             campaign.amount == 0 ||
             campaign.amountLeft == 0 ||
@@ -97,18 +97,8 @@ contract FollowMe is ILSP1UniversalReceiverDelegate {
             }
         }
 
-        UniversalProfile up = UniversalProfile(msg.sender);
-        try
-            up.setData(RECEIVER_DELEGATE_KEY, abi.encodePacked(address(this)))
-        {} catch Error(string memory reason) {
-            revert(
-                string(
-                    abi.encodePacked(
-                        "Failed to set universalReceiverDelegate: ",
-                        reason
-                    )
-                )
-            );
+        if (registerReceiverDelegate) {
+            _registerReceiverDelegate();
         }
 
         _campaigns[msg.sender] = campaign;
@@ -116,6 +106,10 @@ contract FollowMe is ILSP1UniversalReceiverDelegate {
 
     function cancelCampaign() public payable {
         delete _campaigns[msg.sender];
+    }
+
+    function registerReceiverDelegate() public payable {
+        _registerReceiverDelegate();
     }
 
     function getCampaign(
@@ -138,8 +132,8 @@ contract FollowMe is ILSP1UniversalReceiverDelegate {
     }
 
     function universalReceiverDelegate(
-        address caller_,
-        uint256 value_,
+        address,
+        uint256,
         bytes32 typeId_,
         bytes memory data_
     ) external override returns (bytes memory) {
@@ -223,6 +217,22 @@ contract FollowMe is ILSP1UniversalReceiverDelegate {
             return result;
         } catch {
             return false;
+        }
+    }
+
+    function _registerReceiverDelegate() internal {
+        UniversalProfile up = UniversalProfile(msg.sender);
+        try
+            up.setData(RECEIVER_DELEGATE_KEY, abi.encodePacked(address(this)))
+        {} catch Error(string memory reason) {
+            revert(
+                string(
+                    abi.encodePacked(
+                        "Failed to set universalReceiverDelegate: ",
+                        reason
+                    )
+                )
+            );
         }
     }
 
