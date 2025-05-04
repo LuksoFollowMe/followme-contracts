@@ -2,8 +2,6 @@
 
 Smart contract for the **FollowMe** mini-app.
 
-🟢 **Live at**: [profile.link/followme@B197](https://profile.link/followme@B197)
-
 ---
 
 ## 🚀 Deploy
@@ -33,6 +31,14 @@ npx hardhat ignition deploy --network lukso-mainnet ./ignition/modules/FollowMe.
 
 ## ✅ Verify
 
+Mainnet:
+
 ```bash
 npx hardhat verify --network lukso-mainnet CONTRACT_ADDRESS
+```
+
+Testnet:
+
+```bash
+npx hardhat verify --network lukso-testnet CONTRACT_ADDRESS
 ```

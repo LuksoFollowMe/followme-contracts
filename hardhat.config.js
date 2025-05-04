@@ -30,6 +30,7 @@ module.exports = {
 	etherscan: {
 		apiKey: {
 			"lukso-mainnet": "empty",
+			"lukso-testnet": "empty",
 		},
 		customChains: [
 			{
@@ -38,6 +39,14 @@ module.exports = {
 				urls: {
 					apiURL: "https://explorer.execution.mainnet.lukso.network/api",
 					browserURL: "https://explorer.execution.mainnet.lukso.network",
+				},
+			},
+			{
+				network: "lukso-testnet",
+				chainId: 4201,
+				urls: {
+					apiURL: "https://api.explorer.execution.testnet.lukso.network/api",
+					browserURL: "https://explorer.execution.testnet.lukso.network",
 				},
 			},
 		],
